@@ -19,6 +19,8 @@ const Footer = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hover:text-blue-400 transform hover:scale-110 transition-all duration-300"
+                            title="Visit our GitHub repository"
+                            aria-label="Visit our GitHub repository"
                         >
                             <FaGithub size={28} />
                         </a>
@@ -27,12 +29,16 @@ const Footer = () => {
                             target="_blank"
                             rel="noopener noreferrer"
                             className="hover:text-blue-400 transform hover:scale-110 transition-all duration-300"
+                            title="Follow us on Twitter"
+                            aria-label="Follow us on Twitter"
                         >
                             <FaTwitter size={28} />
                         </a>
                         <a
                             href="mailto:info@crimeanalytics.com"
                             className="hover:text-blue-400 transform hover:scale-110 transition-all duration-300"
+                            title="Send us an email"
+                            aria-label="Send us an email"
                         >
                             <MdEmail size={28} />
                         </a>
