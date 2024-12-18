@@ -81,6 +81,7 @@ export default function Navbar() {
                 className="md:hidden p-2 text-zinc-400 hover:text-white"
                 onClick={() => setIsMobileMenuOpen(true)}
               >
+                {" "}
                 <svg
                   className="h-6 w-6"
                   fill="none"

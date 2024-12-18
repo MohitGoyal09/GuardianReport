@@ -24,6 +24,7 @@ export default function MobileMenu({ isOpen, onClose }: MobileMenuProps) {
               onClick={onClose}
               className="p-2 text-zinc-400 hover:text-white"
             >
+              {" "}
               <svg
                 className="h-6 w-6"
                 fill="none"
