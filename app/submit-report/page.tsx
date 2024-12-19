@@ -1,3 +1,4 @@
+'use client'
 import React from 'react'
 import  ReportWizard from '@/components/report/ReportWizard'
 export default function SubmitReport() {
