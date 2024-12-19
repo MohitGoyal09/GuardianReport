@@ -1,6 +1,9 @@
-'use client'
-import React from 'react'
-import  ReportWizard from '@/components/report/ReportWizard'
+'use client';
+import React from 'react';
+import dynamic from 'next/dynamic';
+
+const ReportWizard = dynamic(() => import('@/components/report/ReportWizard'), { ssr: false });
+
 export default function SubmitReport() {
   return (
     <div className="relative min-h-screen bg-black selection:bg-blue-500/20 overflow-hidden">
@@ -34,9 +37,9 @@ export default function SubmitReport() {
               Your safety is our priority. All submissions are encrypted and
               anonymized.
             </p>
-          </div>
-          <div className = 'mt-16 bg-zinc-900/50 rounded-2xl border border-white/5 p-6'>
-           <ReportWizard />
+            <div className="mt-16 bg-zinc-900/50 rounded-2xl border border-white/5 p-6">
+              <ReportWizard />
+            </div>
           </div>
         </div>
       </main>
