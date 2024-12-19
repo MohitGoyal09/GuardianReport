@@ -1,7 +1,8 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import LocationInput from './LocationInput';
+import {LocationInput} from "./LocationInput";
 
 const REPORT_TYPES = [
   "Theft",
@@ -189,45 +190,46 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           </div>
         )}
         {/* Specific Report Type */}
-        <div>
-          <label className="block text-sm font-medium text-zinc-400 mb-2">
-            Specific Report Type
-          </label>
-          <select
-            value={formData.specifiedType}
-            onChange={(e) => {
-              setFormData((prev) => ({
-                ...prev,
-                specifiedType: e.target.value,
-              }));
-            }}
-            className="w-full rounded-xl bg-zinc-900/50 border border-zinc-800 px-4 py-3.5
-                   text-white transition-colors duration-200
-                   focus:outline-none focus:ring-2 focus:ring-sky-500/40"
-            required
-            aria-label="Select specific report type"
-          >
-            {REPORT_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
-        {/* Location */}
-        <LocationInput
-          value={formData.location}
-          onChange={(value) =>
-            setFormData((prev) => ({ ...prev, location: value }))
-          }
-          onCoordinatesChange={(lat, lng) =>
-            setCoordinates({
-              latitude: lat,
-              longitude: lng,
-            })
-          }
-        />
+      </div>{" "}
+      <div>
+        <label className="block text-sm font-medium text-zinc-400 mb-2">
+          Specific Report Type
+        </label>
+        <select
+          value={formData.specifiedType}
+          onChange={(e) => {
+            setFormData((prev) => ({
+              ...prev,
+              specifiedType: e.target.value,
+            }));
+          }}
+          className="w-full rounded-xl bg-zinc-900/50 border border-zinc-800 px-4 py-3.5
+                   text-white transition-all duration-300 hover:border-zinc-700
+                   focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500/40
+                   shadow-sm hover:shadow-md backdrop-blur-sm"
+          required
+          aria-label="Select specific report type"
+        >
+          {REPORT_TYPES.map((type) => (
+            <option key={type} value={type}>
+              {type}
+            </option>
+          ))}
+        </select>
       </div>
+      {/* Location */}
+      <LocationInput
+        value={formData.location}
+        onChange={(value) =>
+          setFormData((prev) => ({ ...prev, location: value }))
+        }
+        onCoordinatesChange={(lat, lng) =>
+          setCoordinates({
+            latitude: lat,
+            longitude: lng,
+          })
+        }
+      />
     </form>
   );
 }
