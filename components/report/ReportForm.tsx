@@ -281,6 +281,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
             Specific Report Type
           </label>
           <select
+            aria-label="Specific Report Type"
             value={formData.specifiedType}
             onChange={(e) => {
               setFormData((prev) => ({
