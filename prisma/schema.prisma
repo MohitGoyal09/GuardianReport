@@ -44,6 +44,7 @@ model Report {
   type ReportType
   title String
   description String
+  reportType  String
   status ReportStatus @default(PENDING)
   location String?
   latitude Float?
