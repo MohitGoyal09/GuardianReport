@@ -1,4 +1,4 @@
-'use client'
+"use client";
 
 import { useState } from "react";
 
@@ -50,7 +50,7 @@ export default function HowItWorks() {
           </div>
 
           {/* Enhanced Process Steps */}
-          <div className="mt-32 grid gap-8">
+          <div className="mt-32 grid gap-8 md:grid-cols-2">
             {[
               {
                 step: "01",
@@ -59,7 +59,7 @@ export default function HowItWorks() {
                   "Fill out our secure form with as much detail as possible. No personal information is required. You can include photos, videos, or documents if available.",
                 icon: (
                   <svg
-                    className="h-6 w-6"
+                    className="h-8 w-8 transition-transform group-hover:scale-110"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -80,7 +80,7 @@ export default function HowItWorks() {
                   "Your report is immediately encrypted using military-grade protocols. All identifying metadata is stripped from your submission, including IP address and device information.",
                 icon: (
                   <svg
-                    className="h-6 w-6"
+                    className="h-8 w-8 transition-transform group-hover:scale-110"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -101,7 +101,7 @@ export default function HowItWorks() {
                   "Our system verifies the report's jurisdiction and automatically routes it to the appropriate law enforcement agency. The entire process maintains your anonymity.",
                 icon: (
                   <svg
-                    className="h-6 w-6"
+                    className="h-8 w-8 transition-transform group-hover:scale-110"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -122,7 +122,7 @@ export default function HowItWorks() {
                   "If needed, law enforcement can communicate with you through our encrypted platform using your anonymous report ID. You maintain control over the conversation.",
                 icon: (
                   <svg
-                    className="h-6 w-6"
+                    className="h-8 w-8 transition-transform group-hover:scale-110"
                     fill="none"
                     viewBox="0 0 24 24"
                     stroke="currentColor"
@@ -139,29 +139,29 @@ export default function HowItWorks() {
             ].map((step, i) => (
               <div
                 key={i}
-                className="group relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-sm transition-all duration-300"
+                className="group relative overflow-hidden rounded-2xl bg-zinc-900/50 backdrop-blur-sm transition-all duration-500 hover:shadow-xl hover:shadow-sky-500/10"
                 onMouseEnter={() => setHoveredStep(i)}
                 onMouseLeave={() => setHoveredStep(null)}
               >
-                <div className="absolute inset-0 bg-gradient-to-b from-sky-500/10 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
+                <div className="absolute inset-0 bg-gradient-to-br from-sky-500/20 via-transparent to-transparent opacity-0 transition-opacity duration-500 group-hover:opacity-100" />
                 <div
-                  className={`relative flex gap-8 p-8 transition-transform duration-300 ${
+                  className={`relative flex gap-8 p-8 transition-all duration-500 ease-out ${
                     hoveredStep === i ? "translate-x-2" : ""
                   }`}
                 >
                   <div className="flex-shrink-0">
-                    <div className="flex h-14 w-14 items-centerd-xl bg-sky-500/10 text-sky-400 transition-colors duration-300 group-hover:bg-sky-500/20">
+                    <div className="flex h-16 w-16 items-center justify-center rounded-xl bg-sky-500/10 text-sky-400 transition-colors duration-500 group-hover:bg-sky-500/20">
                       {step.icon}
                     </div>
                   </div>
-                  <div className="flex-1">
-                    <div className="text-sm font-medium text-sky-400">
+                  <div className="flex-1 space-y-3">
+                    <div className="text-sm font-medium text-sky-400 transition-colors duration-300 group-hover:text-sky-300">
                       Step {step.step}
                     </div>
-                    <h3 className="mt-2 text-xl font-semibold text-white">
+                    <h3 className="text-2xl font-semibold text-white transition-colors duration-300 group-hover:text-sky-50">
                       {step.title}
                     </h3>
-                    <p className="mt-3 text-base leading-relaxed text-zinc-400">
+                    <p className="text-base leading-relaxed text-zinc-400 transition-colors duration-300 group-hover:text-zinc-300">
                       {step.description}
                     </p>
                   </div>
