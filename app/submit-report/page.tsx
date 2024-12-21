@@ -1,8 +1,7 @@
 'use client';
 import React from 'react';
-import dynamic from 'next/dynamic';
+import { ReportWizard } from '@/components/report/ReportWizard';
 
-const ReportWizard = dynamic(() => import('@/components/report/ReportWizard'), { ssr: false });
 
 export default function SubmitReport() {
   return (

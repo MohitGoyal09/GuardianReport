@@ -29,7 +29,9 @@ export function ReportForm({ onComplete }: ReportFormProps) {
   });
   const [image, setImage] = useState<string | null>(null);
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [error, setError] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
+
   const [coordinates, setCoordinates] = useState<{
     latitude: number | null;
     longitude: number | null;
@@ -49,39 +51,78 @@ export function ReportForm({ onComplete }: ReportFormProps) {
     return combinedString.slice(0, 16);
   }, []);
 
-  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0];
-    if (!file) return;
+ const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+   const file = e.target.files?.[0];
+   if (!file) return;
 
-    setIsAnalyzing(true);
-    try {
-      const base24 = await new Promise((resolve) => {
-        const reader = new FileReader();
-        reader.onloadend = () => resolve(reader.result);
-        reader.readAsDataURL(file);
-      });
-      const response = await axios.post("/api/upload-image", {
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({ image: base24 }),
-      });
-      const data = response.data;
-      if (data.title && data.description && data.reportType) {
-        setFormData({
-          ...formData,
-          title: data.title,
-          description: data.description,
-          incidentType: data.reportType,
-        });
-        setImage(base24 as string);
-      }
-    } catch (error) {
-      console.error("Error uploading image", error);
-    } finally {
-      setIsAnalyzing(false);
-    }
-  };
+   // Validate file type
+   if (!file.type.startsWith("image/")) {
+     setError("Please select a valid image file");
+     return;
+   }
+
+   // Validate file size (4MB limit)
+   if (file.size > 4 * 1024 * 1024) {
+     setError("Image size must be less than 4MB");
+     return;
+   }
+
+   setIsAnalyzing(true);
+   setError(null);
+
+   try {
+     // Convert to base64
+     const base64 = await new Promise<string>((resolve, reject) => {
+       const reader = new FileReader();
+       reader.onloadend = () => resolve(reader.result as string);
+       reader.onerror = (error) => reject(new Error("Failed to read file"));
+       reader.readAsDataURL(file);
+     });
+
+     console.log("Image upload details:", {
+       fileType: file.type,
+       fileSize: `${(file.size / 1024).toFixed(2)}KB`,
+       fileName: file.name,
+     });
+
+     const response = await axios.post(
+       "/api/analyze-image",
+       { image: base64 },
+       {
+         headers: { "Content-Type": "application/json" },
+         timeout: 30000,
+       }
+     );
+
+     if (response.data.error) {
+       throw new Error(response.data.error);
+     }
+
+     const { title, reportType, description } = response.data;
+
+     if (!title || !reportType || !description) {
+       throw new Error("Incomplete response from server");
+     }
+
+     setFormData((prev) => ({
+       ...prev,
+       title,
+       description,
+       incidentType: reportType,
+     }));
+     setImage(base64);
+   } catch (error: any) {
+     const errorMessage = error.response?.data?.error || error.message;
+     setError(errorMessage);
+     console.error("Error uploading image:", errorMessage);
+   } finally {
+     setIsAnalyzing(false);
+   }
+ };
+
+
+
+
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
