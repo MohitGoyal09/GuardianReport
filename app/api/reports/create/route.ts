@@ -20,7 +20,7 @@ export async function POST(request: Request) {
         return NextResponse.json(
           {
             success: false,
-            error: `Missing required field: ${field}`,
+            error: `Missing required field: ${field}`, // Fixed template literal syntax
           },
           { status: 400 }
         );
@@ -32,17 +32,14 @@ export async function POST(request: Request) {
       return NextResponse.json(
         {
           success: false,
-          error: `Invalid report category. Must be one of: ${validTypes.join(
-            ", "
-          )}`,
+          error: `Invalid report category. Must be one of: ${validTypes.join(", ")}`, // Fixed template literal syntax
         },
         { status: 400 }
       );
     }
 
     const report = await prisma.report.create({
-      data: {
-        reportId: data.reportId,
+        data : { reportId: data.reportId,
         type: data.type as ReportType,
         reportType: data.specifiedType,
         title: data.title,
