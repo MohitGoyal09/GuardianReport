@@ -4,16 +4,16 @@ import Image from "next/image";
 import { LocationInput } from "./LocationInput";
 import axios from "axios";
 
-const REPORT_TYPES = [
-  "Theft",
-  "Fire Outbreak",
+const EMERGENCY_TYPES = [
   "Medical Emergency",
-  "Natural Disaster",
+  "Fire Outbreak",
   "Violence",
-  "Other",
 ] as const;
+const NON_EMERGENCY_TYPES = ["Theft", "Natural Disaster", "Other"] as const;
 
-type ReportType = "EMERGENCY" | "NON_EMERGENCY";
+type EmergencyType = (typeof EMERGENCY_TYPES)[number];
+type NonEmergencyType = (typeof NON_EMERGENCY_TYPES)[number];
+type ReportCategory = "EMERGENCY" | "NON_EMERGENCY" | "";
 
 interface ReportFormProps {
   onComplete: (data: any) => void;
@@ -21,7 +21,7 @@ interface ReportFormProps {
 
 export function ReportForm({ onComplete }: ReportFormProps) {
   const [formData, setFormData] = useState({
-    incidentType: "" as ReportType,
+    category: "" as ReportCategory,
     specifiedType: "",
     location: "",
     description: "",
@@ -51,105 +51,135 @@ export function ReportForm({ onComplete }: ReportFormProps) {
     return combinedString.slice(0, 16);
   }, []);
 
- const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-   const file = e.target.files?.[0];
-   if (!file) return;
+  const handleImageUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (!file) return;
 
-   // Validate file type
-   if (!file.type.startsWith("image/")) {
-     setError("Please select a valid image file");
-     return;
-   }
+    if (!file.type.startsWith("image/")) {
+      setError("Please select a valid image file");
+      return;
+    }
 
-   // Validate file size (4MB limit)
-   if (file.size > 4 * 1024 * 1024) {
-     setError("Image size must be less than 4MB");
-     return;
-   }
+    if (file.size > 4 * 1024 * 1024) {
+      setError("Image size must be less than 4MB");
+      return;
+    }
 
-   setIsAnalyzing(true);
-   setError(null);
+    setIsAnalyzing(true);
+    setError(null);
 
-   try {
-     // Convert to base64
-     const base64 = await new Promise<string>((resolve, reject) => {
-       const reader = new FileReader();
-       reader.onloadend = () => resolve(reader.result as string);
-       reader.onerror = (error) => reject(new Error("Failed to read file"));
-       reader.readAsDataURL(file);
-     });
+    try {
+      const base64 = await new Promise<string>((resolve, reject) => {
+        const reader = new FileReader();
+        reader.onloadend = () => resolve(reader.result as string);
+        reader.onerror = (error) => reject(new Error("Failed to read file"));
+        reader.readAsDataURL(file);
+      });
 
-     console.log("Image upload details:", {
-       fileType: file.type,
-       fileSize: `${(file.size / 1024).toFixed(2)}KB`,
-       fileName: file.name,
-     });
+      console.log("Image upload details:", {
+        fileType: file.type,
+        fileSize: `${(file.size / 1024).toFixed(2)}KB`,
+        fileName: file.name,
+      });
 
-     const response = await axios.post(
-       "/api/analyze-image",
-       { image: base64 },
-       {
-         headers: { "Content-Type": "application/json" },
-         timeout: 30000,
-       }
-     );
+      const response = await axios.post(
+        "/api/analyze-image",
+        { image: base64 },
+        {
+          headers: { "Content-Type": "application/json" },
+          timeout: 30000,
+        }
+      );
 
-     if (response.data.error) {
-       throw new Error(response.data.error);
-     }
+      if (response.data.error) {
+        throw new Error(response.data.error);
+      }
 
-     const { title, reportType, description } = response.data;
+      const { title, reportType, description } = response.data;
 
-     if (!title || !reportType || !description) {
-       throw new Error("Incomplete response from server");
-     }
+      // Map the analyzed reportType to the correct category and specified type
+      let category: ReportCategory = "";
+      let specifiedType = "";
+      if (EMERGENCY_TYPES.includes(reportType as EmergencyType)) {
+        category = "EMERGENCY";
+        specifiedType = reportType;
+      } else if (NON_EMERGENCY_TYPES.includes(reportType as NonEmergencyType)) {
+        category = "NON_EMERGENCY";
+        specifiedType = reportType;
+      }
 
-     setFormData((prev) => ({
-       ...prev,
-       title,
-       description,
-       incidentType: reportType,
-     }));
-     setImage(base64);
-   } catch (error: any) {
-     const errorMessage = error.response?.data?.error || error.message;
-     setError(errorMessage);
-     console.error("Error uploading image:", errorMessage);
-   } finally {
-     setIsAnalyzing(false);
-   }
- };
+      if (!title || !category || !description) {
+        throw new Error("Incomplete response from server");
+      }
 
-
-
-
+      setFormData((prev) => ({
+        ...prev,
+        title,
+        description,
+        category,
+        specifiedType,
+      }));
+      setImage(base64);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.error || error.message;
+      setError(errorMessage);
+      console.error("Error uploading image:", errorMessage);
+    } finally {
+      setIsAnalyzing(false);
+    }
+  };
 
   const handleSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setIsSubmitting(true);
+    setError(null);
+
+    if (!formData.category) {
+      setError("Please select a report category.");
+      setIsSubmitting(false);
+      return;
+    }
+    if (!formData.specifiedType) {
+      setError("Please select a specific report type.");
+      setIsSubmitting(false);
+      return;
+    }
+    if (!formData.location || !coordinates.latitude || !coordinates.longitude) {
+      setError("Please provide a valid location.");
+      setIsSubmitting(false);
+      return;
+    }
+
     try {
       const reportData = {
         reportId: generateReportId(),
-        title: formData.title,
-        type: formData.incidentType,
+        type: formData.category,
         specifiedType: formData.specifiedType,
+        title: formData.title,
         description: formData.description,
         location: formData.location,
         latitude: coordinates.latitude,
         longitude: coordinates.longitude,
         image: image,
       };
-      const request = await axios.post("/api/reports/create", {
+
+      console.log("Submitting report data:", reportData);
+
+      const response = await axios.post("/api/reports/create", reportData, {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(reportData),
       });
-      if (request.status === 200) {
-        onComplete(reportData);
+
+      if (response.data.success) {
+        onComplete(response.data); // Or `reportData` if you prefer the client-side data
+      } else {
+        throw new Error(response.data.error || "Failed to submit report");
       }
-    } catch (error) {
-      console.error("Error submitting report", error);
+    } catch (error: any) {
+      const errorMessage = error.response?.data?.error || error.message;
+      console.error("Error submitting report:", errorMessage);
+      setError(errorMessage);
     } finally {
       setIsSubmitting(false);
     }
@@ -161,17 +191,26 @@ export function ReportForm({ onComplete }: ReportFormProps) {
         onSubmit={handleSubmit}
         className="space-y-6 md:space-y-8 w-full bg-zinc-950/50 p-4 md:p-8 rounded-2xl border border-zinc-800/50"
       >
+        {error && (
+          <div
+            className="rounded-md bg-red-100 px-4 py-3 text-sm text-red-700"
+            role="alert"
+          >
+            {error}
+          </div>
+        )}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <button
             type="button"
             onClick={() =>
               setFormData((prev) => ({
                 ...prev,
-                incidentType: "EMERGENCY",
+                category: "EMERGENCY",
+                specifiedType: "",
               }))
             }
             className={`p-4 md:p-8 rounded-2xl border-2 transition-all duration-200 ${
-              formData.incidentType === "EMERGENCY"
+              formData.category === "EMERGENCY"
                 ? "bg-red-500/20 border-red-500 shadow-lg shadow-red-500/20"
                 : "bg-zinc-900/50 border-zinc-800 hover:bg-red-500/10 hover:border-red-500/50"
             }`}
@@ -204,11 +243,12 @@ export function ReportForm({ onComplete }: ReportFormProps) {
             onClick={() =>
               setFormData((prev) => ({
                 ...prev,
-                incidentType: "NON_EMERGENCY",
+                category: "NON_EMERGENCY",
+                specifiedType: "",
               }))
             }
             className={`p-4 md:p-8 rounded-2xl border-2 transition-all duration-200 ${
-              formData.incidentType === "NON_EMERGENCY"
+              formData.category === "NON_EMERGENCY"
                 ? "bg-orange-500/20 border-orange-500 shadow-lg shadow-orange-500/20"
                 : "bg-zinc-900/50 border-zinc-800 hover:bg-orange-500/10 hover:border-orange-500/50"
             }`}
@@ -247,7 +287,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           />
           <label
             htmlFor="image-upload"
-            className="block w-full p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl 
+            className="block w-full p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl
                      hover:border-sky-500/50 hover:bg-sky-500/5 transition-all duration-200
                      cursor-pointer text-center"
           >
@@ -317,33 +357,42 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           )}
         </div>
 
-        <div>
-          <label className="block text-xs md:text-sm font-medium text-zinc-400 mb-2">
-            Specific Report Type
-          </label>
-          <select
-            aria-label="Specific Report Type"
-            value={formData.specifiedType}
-            onChange={(e) => {
-              setFormData((prev) => ({
-                ...prev,
-                specifiedType: e.target.value,
-              }));
-            }}
-            className="w-full rounded-xl bg-zinc-900/50 border border-zinc-800 px-3 md:px-4 py-2.5 md:py-3.5
+        {formData.category && (
+          <div>
+            <label className="block text-xs md:text-sm font-medium text-zinc-400 mb-2">
+              Specific Report Type
+            </label>
+            <select
+              aria-label="Specific Report Type"
+              value={formData.specifiedType}
+              onChange={(e) =>
+                setFormData((prev) => ({
+                  ...prev,
+                  specifiedType: e.target.value,
+                }))
+              }
+              className="w-full rounded-xl bg-zinc-900/50 border border-zinc-800 px-3 md:px-4 py-2.5 md:py-3.5
                      text-sm md:text-base text-white transition-all duration-300 hover:border-zinc-700
                      focus:outline-none focus:ring-2 focus:ring-sky-500/40 focus:border-sky-500/40
                      shadow-sm hover:shadow-md backdrop-blur-sm"
-            required
-          >
-            <option value="">Select type</option>
-            {REPORT_TYPES.map((type) => (
-              <option key={type} value={type}>
-                {type}
-              </option>
-            ))}
-          </select>
-        </div>
+              required
+            >
+              <option value="">Select type</option>
+              {formData.category === "EMERGENCY" &&
+                EMERGENCY_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+              {formData.category === "NON_EMERGENCY" &&
+                NON_EMERGENCY_TYPES.map((type) => (
+                  <option key={type} value={type}>
+                    {type}
+                  </option>
+                ))}
+            </select>
+          </div>
+        )}
 
         <LocationInput
           value={formData.location}
@@ -397,7 +446,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full relative group overflow-hidden rounded-xl bg-gradient-to-br from-sky-500 to-blue-600 
+          className="w-full relative group overflow-hidden rounded-xl bg-gradient-to-br from-sky-500 to-blue-600
                    px-4 py-3 md:py-3.5 text-sm md:text-base font-medium text-white shadow-lg
                    transition-all duration-200 hover:from-sky-400 hover:to-blue-500
                    disabled:opacity-50 disabled:cursor-not-allowed"
