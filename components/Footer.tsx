@@ -1,3 +1,4 @@
+'use client'
 import { FaGithub, FaTwitter } from "react-icons/fa";
 import { MdEmail } from "react-icons/md";
 import { AiFillHeart } from "react-icons/ai";
