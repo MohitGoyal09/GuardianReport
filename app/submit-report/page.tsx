@@ -1,6 +1,14 @@
 'use client';
 import React from 'react';
-import { ReportWizard } from '@/components/report/ReportWizard';
+// import { ReportWizard } from '@/components/report/ReportWizard';
+
+// app/submit-report/page.tsx
+import dynamic from 'next/dynamic'
+
+const ReportWizard = dynamic(
+  () => import('@/components/report/ReportWizard').then(mod => mod.ReportWizard),
+  { ssr: false } // This will disable server-side rendering for this component
+)
 
 
 export default function SubmitReport() {

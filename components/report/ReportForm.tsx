@@ -1,8 +1,15 @@
 "use client";
 import { useState, useCallback } from "react";
 import Image from "next/image";
-import { LocationInput } from "./LocationInput";
+// import { LocationInput } from "./LocationInput";
+import dynamic from "next/dynamic";
 import axios from "axios";
+const LocationInput = dynamic(
+  () => import("./LocationInput").then((mod) => mod.LocationInput),
+  {
+    ssr: false,
+  }
+);
 
 const EMERGENCY_TYPES = [
   "Medical Emergency",

@@ -1,8 +1,20 @@
 "use client";
-
+import dynamic from "next/dynamic";
 import { useState } from "react";
-import { ReportForm } from "./ReportForm";
-import { ReportSubmitted } from "./ReportFormCompleted";
+
+const ReportForm = dynamic(
+  () => import("./ReportForm").then((mod) => mod.ReportForm),
+  {
+    ssr: false,
+  }
+);
+
+const ReportSubmitted = dynamic(
+  () => import("./ReportFormCompleted").then((mod) => mod.ReportSubmitted),
+  {
+    ssr: false,
+  }
+);
 
 export function ReportWizard() {
   const [currentStep, setCurrentStep] = useState(1);
