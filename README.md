@@ -73,7 +73,7 @@ NEXTAUTH_URL="<http://localhost:3000/api/auth>"
 GEMINI_API_KEY=your-gemini-api-key
 NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your-mapbox-access-api-key
 
-```
+```bash
 
 4. Initialize database
 
@@ -90,7 +90,7 @@ npx prisma db push
 npm run dev
 ```
 
-2. Access application at <http://localhost:3000>
+1. Access application at <http://localhost:3000>
 
 ## API Endpoints
 
