@@ -30,7 +30,7 @@ SafeReport is a web application designed to allow users to submit anonymous repo
   - Tailwind CSS
   - Mapbox for location services
   
-- **Backend** 
+- **Backend**
   - Prisma ORM
   - PostgreSQL database
   - NextAuth for authentication
@@ -53,13 +53,13 @@ SafeReport is a web application designed to allow users to submit anonymous repo
 ```bash
 git clone https://github.com/MohitGoyal09/SafeReport.git
 cd SafeReport
-```bash
+```
 
 2. Install dependencies
 
 ```bash
 npm install
-```bash
+```
 
 3. Configure environment variables
 Create a `.env` file with:
@@ -73,7 +73,7 @@ NEXTAUTH_URL="<http://localhost:3000/api/auth>"
 GEMINI_API_KEY=your-gemini-api-key
 NEXT_PUBLIC_MAPBOX_ACCESS_TOKEN=your-mapbox-access-api-key
 
-```bash
+```
 
 4. Initialize database
 
