@@ -1,5 +1,5 @@
 // @ts-nocheck
-'use client'
+'use client';
 import { useState } from "react";
 import { AddressAutofill } from "@mapbox/search-js-react";
 
