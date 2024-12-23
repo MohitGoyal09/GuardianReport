@@ -8,7 +8,7 @@ import Footer from "@/components/Footer";
 const inter = Inter({ subsets: ["latin"] });
 
 export const metadata: Metadata = {
-  title: "SafeReport - Anonymous Crime Reporting",
+  title: "GuardianReport - Anonymous Crime Reporting",
   description: "Securely and anonymously report crimes to law enforcement",
 };
 
