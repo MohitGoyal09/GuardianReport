@@ -34,9 +34,9 @@ export default function ReportTracker() {
   function getStatusColor(status: string): string {
     const statusColors: Record<string, string> = {
       pending: "text-yellow-400 bg-yellow-400/10 border-yellow-400/20",
-      processing: "text-sky-400 bg-sky-400/10 border-sky-400/20",
-      completed: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
-      failed: "text-red-400 bg-red-400/10 border-red-400/20",
+      IN_PROGRESS: "text-blue-400 bg-blue-400/10 border-blue-400/20",
+      RESOLVED: "text-green-400 bg-green-400/10 border-green-400/20",
+      DISMISSED: "text-red-400 bg-red-400/10 border-red-400/20",
     };
     return statusColors[status.toLowerCase()] || "text-white";
   }
