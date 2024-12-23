@@ -18,28 +18,34 @@ export default function SignIn() {
       setError("");
 
       try {
+        console.log("Attempting to sign in...");
         const result = await signIn("credentials", {
           email,
           password,
           redirect: false,
-          callbackUrl: "/dashboard",
+          callbackUrl: `${window.location.origin}/dashboard`, // Add full URL
         });
+
+        console.log("Sign in result:", result); // Debug log
 
         if (result?.error) {
           setError(result.error);
+          console.error("Sign in error:", result.error);
         } else if (result?.ok) {
-          // Use router.push with { replace: true } to ensure proper navigation
-          router.push("/dashboard");
-          // Optional: Force a router refresh to ensure new session is loaded
+          console.log("Sign in successful, redirecting...");
+          // Wait a brief moment before redirecting
+          await new Promise((resolve) => setTimeout(resolve, 500));
+          router.push("/dashboard")
           router.refresh();
         }
       } catch (error) {
-        console.error("An unexpected error happened:", error);
+        console.error("Detailed sign in error:", error);
         setError("An unexpected error occurred during sign in");
       } finally {
         setLoading(false);
       }
     };
+
 
     return (
    <div className="min-h-screen bg-black flex flex-col justify-center py-12 px-4 sm:px-6 lg:px-8">
