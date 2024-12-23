@@ -13,6 +13,7 @@ export default function SignUp() {
     email: "",
     password: "",
     confirmPassword: "",
+    role: "USER",
   });
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState("");
