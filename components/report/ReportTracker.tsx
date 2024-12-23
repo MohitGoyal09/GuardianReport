@@ -23,23 +23,24 @@ export default function ReportTracker() {
 
   function getStatusIcon(status: string) {
     const icons: Record<string, JSX.Element> = {
-      pending: <Clock className="w-4 h-4" />,
-      processing: <AlertCircle className="w-4 h-4" />,
-      completed: <CheckCircle className="w-4 h-4" />,
-      failed: <XCircle className="w-4 h-4" />,
+      PENDING: <Clock className="w-4 h-4" />,
+      IN_PROGRESS: <AlertCircle className="w-4 h-4" />,
+      RESOLVED: <CheckCircle className="w-4 h-4" />,
+      DISMISSED: <XCircle className="w-4 h-4" />,
     };
-    return icons[status.toLowerCase()] || icons.pending;
+    return icons[status] || icons.PENDING;
   }
 
   function getStatusColor(status: string): string {
     const statusColors: Record<string, string> = {
-      pending: "text-yellow-400 bg-yellow-400/10 border-yellow-400/20",
+      PENDING: "text-amber-400 bg-amber-400/10 border-amber-400/20",
       IN_PROGRESS: "text-blue-400 bg-blue-400/10 border-blue-400/20",
-      RESOLVED: "text-green-400 bg-green-400/10 border-green-400/20",
+      RESOLVED: "text-emerald-400 bg-emerald-400/10 border-emerald-400/20",
       DISMISSED: "text-red-400 bg-red-400/10 border-red-400/20",
     };
-    return statusColors[status.toLowerCase()] || "text-white";
+    return statusColors[status] || statusColors.PENDING;
   }
+
 
   const handleSubmit = async (e: React.FormEvent) => {
     
@@ -85,7 +86,8 @@ export default function ReportTracker() {
             </span>
           </h1>
           <p className="mt-6 text-lg text-zinc-400 max-w-2xl mx-auto">
-            Enter your report ID to check the current status and get detailed updates
+            Enter your report ID to check the current status and get detailed
+            updates
           </p>
         </div>
 
@@ -111,7 +113,7 @@ export default function ReportTracker() {
                              focus:ring-sky-500/50 focus:border-transparent transition-all"
                   />
                 </div>
-                
+
                 {error && (
                   <div className="flex items-center gap-2 text-red-400 text-sm bg-red-500/10 p-4 rounded-xl border border-red-500/20 animate-shake">
                     <AlertCircle className="w-5 h-5" />
@@ -166,7 +168,7 @@ export default function ReportTracker() {
                         )} px-4 py-2 rounded-full border`}
                       >
                         {getStatusIcon(reportDetails.status)}
-                        {reportDetails.status.toUpperCase()}
+                        {reportDetails.status}
                       </span>
                     </div>
 
@@ -190,7 +192,8 @@ export default function ReportTracker() {
                           }
                         )}
                       </span>
-                    </div><div className="p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors space-y-2">
+                    </div>
+                    <div className="p-4 rounded-xl bg-white/5 hover:bg-white/10 transition-colors space-y-2">
                       <span className="text-zinc-400 text-sm">Title</span>
                       <span className="text-white block font-medium">
                         {reportDetails.title}
