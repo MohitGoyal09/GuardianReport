@@ -29,7 +29,7 @@ export default function Navbar() {
                     />
                   </svg>
                 </div>
-                <span className="text-lg font-semibold text-white">
+                <span className="text-sm sm:text-base font-semibold text-white whitespace-nowrap">
                   GuardianReport
                 </span>
               </Link>
@@ -58,7 +58,7 @@ export default function Navbar() {
             </div>
 
             {/* Emergency Button */}
-            <div className="flex items-center space-x-4">
+            <div className="flex items-center space-x-2 flex-shrink-0">
               <Link
                 href="/contact"
                 className="hidden md:block text-sm text-zinc-400 hover:text-white transition-colors"
