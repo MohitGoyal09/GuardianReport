@@ -1,6 +1,6 @@
-# SafeReport
+# SafeSpeak
 
-SafeReport is a web application designed to allow users to submit anonymous reports of incidents, ensuring their safety and privacy. The application leverages modern web technologies to provide a seamless and secure user experience.
+SafeSpeak is a web application designed to allow users to submit anonymous reports of incidents, ensuring their safety and privacy. The application leverages modern web technologies to provide a seamless and secure user experience.
 
 ## Table of Contents
 
