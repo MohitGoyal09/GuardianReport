@@ -51,8 +51,8 @@ SafeSpeak is a web application designed to allow users to submit anonymous repor
 1. Clone the repository
 
 ```bash
-git clone https://github.com/MohitGoyal09/SafeReport.git
-cd SafeReport
+git clone https://github.com/MohitGoyal09/SafeSpeak.git
+cd SafeSpeak
 ```
 
 2. Install dependencies
