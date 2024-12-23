@@ -30,7 +30,7 @@ export default function Navbar() {
                   </svg>
                 </div>
                 <span className="text-lg font-semibold text-white">
-                  SafeSpeak
+                  GuardianReport
                 </span>
               </Link>
             </div>
@@ -55,7 +55,6 @@ export default function Navbar() {
               >
                 How It Works
               </Link>
-              
             </div>
 
             {/* Emergency Button */}

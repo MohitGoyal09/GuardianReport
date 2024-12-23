@@ -1,6 +1,6 @@
-# SafeSpeak
+# GuardianReport
 
-SafeSpeak is a web application designed to allow users to submit anonymous reports of incidents, ensuring their safety and privacy. The application leverages modern web technologies to provide a seamless and secure user experience.
+GuardianReport is a web application designed to allow users to submit anonymous reports of incidents, ensuring their safety and privacy. The application leverages modern web technologies to provide a seamless and secure user experience.
 
 ## Table of Contents
 
@@ -51,8 +51,8 @@ SafeSpeak is a web application designed to allow users to submit anonymous repor
 1. Clone the repository
 
 ```bash
-git clone https://github.com/MohitGoyal09/SafeSpeak.git
-cd SafeSpeak
+git clone https://github.com/MohitGoyal09/GuardianReport.git
+cd GuardianReport
 ```
 
 2. Install dependencies
