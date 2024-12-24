@@ -205,8 +205,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           >
             {error}
           </div>
-        )}
-        <div className="relative group">
+        )}<div className="relative group">
           <input
             type="file"
             accept="image/*"
@@ -216,13 +215,13 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           />
           <label
             htmlFor="image-upload"
-            className=" w-full h-[370px] md:h-[200px] p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl
-                 hover:border-sky-500/50 hover:bg-sky-500/5 transition-all duration-200
-                 cursor-pointer text-center flex flex-col justify-center"
+            className="block w-full p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl
+                     hover:border-sky-500/50 hover:bg-sky-500/5 transition-all duration-200
+                     cursor-pointer text-center"
           >
             {image ? (
-              <div className="space-y-4 h-full">
-                <div className="relative w-full h-[400px] md:h-[600px]">
+              <div className="space-y-4">
+                <div className="relative w-full h-48 md:h-96">
                   <Image
                     src={image}
                     alt="Preview"
@@ -237,7 +236,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
             ) : (
               <div className="space-y-3 md:space-y-4">
                 <svg
-                  className="mx-auto h-20 w-20 md:h-32 md:w-32 text-zinc-500"
+                  className="mx-auto h-12 w-12 md:h-16 md:w-16 text-zinc-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -249,15 +248,43 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <p className="text-base md:text-lg text-zinc-400">
+                <p className="text-xs md:text-sm text-zinc-400">
                   Drop an image here or click to upload
                 </p>
               </div>
             )}
           </label>
+          {isAnalyzing && (
+            <div className="absolute inset-0 bg-black/50 rounded-2xl flex items-center justify-center">
+              <div className="flex items-center space-x-3">
+                <svg
+                  className="animate-spin h-5 w-5 text-sky-500"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                >
+                  <circle
+                    className="opacity-25"
+                    cx="12"
+                    cy="12"
+                    r="10"
+                    stroke="currentColor"
+                    strokeWidth="4"
+                  ></circle>
+                  <path
+                    className="opacity-75"
+                    fill="currentColor"
+                    d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                  ></path>
+                </svg>
+                <span className="text-sky-500 font-medium">
+                  Analyzing image...
+                </span>
+              </div>
+            </div>
+          )}
         </div>
-
-        <div className="flex flex-col-2 md:flex-row gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6">
           <button
             type="button"
             onClick={() =>
@@ -267,7 +294,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                 specifiedType: "",
               }))
             }
-            className={`flex-1 p-4 md:p-8 rounded-2xl border-2 transition-all duration-200 ${
+            className={`p-4 md:p-8 rounded-2xl border-2 transition-all duration-200 ${
               formData.category === "EMERGENCY"
                 ? "bg-red-500/20 border-red-500 shadow-lg shadow-red-500/20"
                 : "bg-zinc-900/50 border-zinc-800 hover:bg-red-500/10 hover:border-red-500/50"
@@ -287,10 +314,10 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                   d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                 />
               </svg>
-              <span className="font-medium text-sm md:text-lg text-red-500">
+              <span className="font-medium text-base md:text-lg text-red-500">
                 Emergency
               </span>
-              <span className="hidden md:block text-xs md:text-sm text-zinc-400">
+              <span className="text-xs md:text-sm text-zinc-400">
                 Immediate Response Required
               </span>
             </div>
@@ -305,7 +332,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                 specifiedType: "",
               }))
             }
-            className={`flex-1 p-4 md:p-8 rounded-2xl border-2 transition-all duration-200 ${
+            className={`p-4 md:p-8 rounded-2xl border-2 transition-all duration-200 ${
               formData.category === "NON_EMERGENCY"
                 ? "bg-orange-500/20 border-orange-500 shadow-lg shadow-orange-500/20"
                 : "bg-zinc-900/50 border-zinc-800 hover:bg-orange-500/10 hover:border-orange-500/50"
@@ -328,12 +355,14 @@ export function ReportForm({ onComplete }: ReportFormProps) {
               <span className="font-medium text-base md:text-lg text-orange-500">
                 Non-Emergency
               </span>
-              <span className="hidden md:block text-xs md:text-sm text-zinc-400">
+              <span className="text-xs md:text-sm text-zinc-400">
                 General Report
               </span>
             </div>
           </button>
         </div>
+
+        
 
         {formData.category && (
           <div>
