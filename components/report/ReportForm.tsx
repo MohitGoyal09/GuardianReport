@@ -205,7 +205,8 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           >
             {error}
           </div>
-        )}<div className="relative group">
+        )}
+        <div className="relative group">
           <input
             type="file"
             accept="image/*"
@@ -284,7 +285,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
           <button
             type="button"
             onClick={() =>
@@ -361,8 +362,6 @@ export function ReportForm({ onComplete }: ReportFormProps) {
             </div>
           </button>
         </div>
-
-        
 
         {formData.category && (
           <div>
