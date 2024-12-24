@@ -216,7 +216,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           />
           <label
             htmlFor="image-upload"
-            className="block w-full p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl
+            className="block w-full p-4 md:p-8  border-2 border-dashed border-zinc-700 rounded-2xl
                      hover:border-sky-500/50 hover:bg-sky-500/5 transition-all duration-200
                      cursor-pointer text-center"
           >
@@ -285,7 +285,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
             </div>
           )}
         </div>
-        <div className="grid grid-cols-1 md:grid-cols-2 gap-4 md:gap-6">
+        <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6">
           <button
             type="button"
             onClick={() =>
@@ -301,9 +301,9 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                 : "bg-zinc-900/50 border-zinc-800 hover:bg-red-500/10 hover:border-red-500/50"
             }`}
           >
-            <div className="flex flex-col items-center space-y-2 md:space-y-3">
+            <div className="flex flex-col items-center space-y-1 md:space-y-2">
               <svg
-                className="w-8 h-8 md:w-12 md:h-12 text-red-500"
+                className="w-5 h-5 md:w-8 md:h-8 text-red-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -315,10 +315,10 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                   d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"
                 />
               </svg>
-              <span className="font-medium text-base md:text-lg text-red-500">
+              <span className="font-medium text-sm md:text-base text-red-500">
                 Emergency
               </span>
-              <span className="text-xs md:text-sm text-zinc-400">
+              <span className="hidden md:block text-xs text-zinc-400">
                 Immediate Response Required
               </span>
             </div>
@@ -339,9 +339,9 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                 : "bg-zinc-900/50 border-zinc-800 hover:bg-orange-500/10 hover:border-orange-500/50"
             }`}
           >
-            <div className="flex flex-col items-center space-y-2 md:space-y-3">
+            <div className="flex flex-col items-center space-y-1 md:space-y-2">
               <svg
-                className="w-8 h-8 md:w-12 md:h-12 text-orange-500"
+                className="w-5 h-5 md:w-8 md:h-8 text-orange-500"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -353,10 +353,10 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                   d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
                 />
               </svg>
-              <span className="font-medium text-base md:text-lg text-orange-500">
+              <span className="font-medium text-sm md:text-base text-orange-500">
                 Non-Emergency
               </span>
-              <span className="text-xs md:text-sm text-zinc-400">
+              <span className="hidden md:block text-xs text-zinc-400">
                 General Report
               </span>
             </div>
