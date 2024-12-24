@@ -216,28 +216,28 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           />
           <label
             htmlFor="image-upload"
-            className="block w-full p-4 md:p-8  border-2 border-dashed border-zinc-700 rounded-2xl
+            className=" w-full h-[400px] md:h-[400px] p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl
                      hover:border-sky-500/50 hover:bg-sky-500/5 transition-all duration-200
-                     cursor-pointer text-center"
+                     cursor-pointer text-center flex flex-col justify-center"
           >
             {image ? (
-              <div className="space-y-4">
-                <div className="relative w-full h-48 md:h-96">
+              <div className="space-y-4 h-full">
+                <div className="relative w-full h-[300px] md:h-[300px]">
                   <Image
                     src={image}
                     alt="Preview"
                     fill
-                    className="w-full h-full object-cover rounded-xl"
+                    className="w-full h-full object-contain rounded-xl"
                   />
                 </div>
-                <p className="text-xs md:text-sm text-zinc-400">
+                <p className="text-sm md:text-base text-zinc-400">
                   Click to change image
                 </p>
               </div>
             ) : (
-              <div className="space-y-3 md:space-y-4">
+              <div className="space-y-4 md:space-y-6">
                 <svg
-                  className="mx-auto h-12 w-12 md:h-16 md:w-16 text-zinc-500"
+                  className="mx-auto h-16 w-16 md:h-24 md:w-24 text-zinc-500"
                   fill="none"
                   viewBox="0 0 24 24"
                   stroke="currentColor"
@@ -249,17 +249,17 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                     d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                   />
                 </svg>
-                <p className="text-xs md:text-sm text-zinc-400">
+                <p className="text-sm md:text-base text-zinc-400">
                   Drop an image here or click to upload
                 </p>
               </div>
             )}
           </label>
           {isAnalyzing && (
-            <div className="absolute inset-0 bg-black/50 rounded-2xl flex items-center justify-center">
-              <div className="flex items-center space-x-3">
+            <div className="absolute inset-0 bg-black/60 backdrop-blur-sm rounded-2xl flex items-center justify-center">
+              <div className="flex flex-col items-center space-y-4 p-6 bg-zinc-900/90 rounded-xl">
                 <svg
-                  className="animate-spin h-5 w-5 text-sky-500"
+                  className="animate-spin h-8 w-8 md:h-10 md:w-10 text-sky-500"
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
                   viewBox="0 0 24 24"
@@ -278,13 +278,14 @@ export function ReportForm({ onComplete }: ReportFormProps) {
                     d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
                   ></path>
                 </svg>
-                <span className="text-sky-500 font-medium">
+                <span className="text-base md:text-lg text-sky-500 font-medium">
                   Analyzing image...
                 </span>
               </div>
             </div>
           )}
         </div>
+
         <div className="grid grid-cols-2 md:grid-cols-2 gap-4 md:gap-6">
           <button
             type="button"
