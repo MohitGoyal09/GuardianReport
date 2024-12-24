@@ -216,7 +216,7 @@ export function ReportForm({ onComplete }: ReportFormProps) {
           />
           <label
             htmlFor="image-upload"
-            className=" w-full h-[370px] md:h-[700px] p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl
+            className=" w-full h-[370px] md:h-[200px] p-4 md:p-8 border-2 border-dashed border-zinc-700 rounded-2xl
                  hover:border-sky-500/50 hover:bg-sky-500/5 transition-all duration-200
                  cursor-pointer text-center flex flex-col justify-center"
           >
